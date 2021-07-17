@@ -5,6 +5,7 @@ version de node : 14.16.1
 
 pour le back Java: 
 -lancer un IDE eclipse ou IntelliJ
+-ouvrir le projet "demo"
 -installer les dépendances si besoin avec un maven update
 -lancer le serveur qui démarrera sur le port 8080
 
