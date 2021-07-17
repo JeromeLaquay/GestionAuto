@@ -10,9 +10,9 @@ public interface CarService {
 
     Mono<Car> getById(Long id);
 
-    Mono<Car> addTodo(Car car);
+    Mono<Car> add(Car car);
 
-    Mono<Car> updateTodo(Car car);
+    Mono<Car> update(Car car);
 
     Mono<Void> deleteById(Long id);
 }

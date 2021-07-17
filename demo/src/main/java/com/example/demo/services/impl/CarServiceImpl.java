@@ -18,23 +18,23 @@ public class CarServiceImpl implements CarService {
     public CarServiceImpl(CarRepository repository) {
         this.repository = repository;
     }
-
+    @Override
     public Flux<Car> getAll() {
         return repository.findAll();
     }
-
+    @Override
     public Mono<Car> getById(Long id) {
         return repository.findById(id);
     }
-
-    public Mono<Car> addTodo(Car car) {
+    @Override
+    public Mono<Car> add(Car car) {
         return repository.save(car);
     }
-
-    public Mono<Car> updateTodo(Car car) {
+    @Override
+    public Mono<Car> update(Car car) {
         return repository.save(car);
     }
-
+    @Override
     public Mono<Void> deleteById(Long id) {
         return repository.deleteById(id);
     }

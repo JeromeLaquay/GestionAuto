@@ -2,12 +2,17 @@ package com.example.demo.models;
 
 import org.springframework.data.annotation.Id;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 
 public class Brand {
 
     @Id
     private Long id;
+    @NotNull @NotBlank
     private String name;
+    @NotNull
     private String logo;
 
     public Brand(String name, String logo) {

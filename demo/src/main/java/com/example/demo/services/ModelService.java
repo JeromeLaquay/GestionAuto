@@ -10,9 +10,9 @@ public interface ModelService {
 
     Mono<Model> getById(Long id);
 
-    Mono<Model> addTodo(Model model);
+    Mono<Model> add(Model model);
 
-    Mono<Model> updateTodo(Model model);
+    Mono<Model> update(Model model);
 
     Mono<Void> deleteById(Long id);
 }

@@ -1,6 +1,6 @@
-<form action="" method="get" class="form-example">
-    <div class="form-example">
-        <label for="brands">Choisissez la marque:</label>
+<form [formGroup]="formGroup">
+    <!-- <div class="form-example">
+        <label for="brands"> La marque:</label>
 
         <select name="brands" id="brands">
           <option value="volvo">Volvo</option>
@@ -18,16 +18,20 @@
           <option value="c4">c4</option>
           <option value="205">205</option>
         </select> 
-    </div>
+    </div> -->
     <div class="form-example">
       <label for="color">Quelle couleur : </label>
-      <input type="text" name="color" id="color" required>
+      <input class="form-control" formControlName="color" type="text">
     </div>
     <div class="form-example">
-      <label for="email">Enter your email: </label>
-      <input type="email" name="email" id="email" required>
+      <label for="image">Coller le lien d'une image: </label>
+      <input class="form-control" formControlName="imagePath" type="text">
     </div>
     <div class="form-example">
-      <input type="submit" value="Subscribe!">
+      <input type="submit" value="Créer">
     </div>
   </form>
+  <div>
+    <button (click)="deleteCar()">Supprimer la voiture</button>
+  </div>
+

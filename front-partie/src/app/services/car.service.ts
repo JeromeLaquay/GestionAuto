@@ -7,9 +7,15 @@ import { environment } from '../../environments/environment';
 })
 export class CarService {
 
+  urlCar = '/cars/'
+
   constructor(private http: HttpClient) { }
 
   getAllCars(){
-    return this.http.get(environment.urlApi + '/car');
+    return this.http.get(environment.urlApi + this.urlCar);
+  }
+
+  getById(id: number){
+    return this.http.get(environment.urlApi + this.urlCar + id);
   }
 }

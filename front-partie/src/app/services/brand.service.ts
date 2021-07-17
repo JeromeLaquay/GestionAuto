@@ -5,13 +5,15 @@ import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class ModelService {
+export class BrandService {
 
-  urlModel = '/models'
+  urlModel = '/brands'
 
   constructor(private http: HttpClient) { }
 
-  getAllModels(){
+  getAllBrands(){
     return this.http.get(environment.urlApi + this.urlModel);
   }
+
+  get
 }

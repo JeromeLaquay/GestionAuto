@@ -9,9 +9,9 @@ public interface BrandService {
 
     Mono<Brand> getById(Long id);
 
-    Mono<Brand> addTodo(Brand brand);
+    Mono<Brand> add(Brand brand);
 
-    Mono<Brand> updateTodo(Brand brand);
+    Mono<Brand> update(Brand brand);
 
     Mono<Void> deleteById(Long id);
 }

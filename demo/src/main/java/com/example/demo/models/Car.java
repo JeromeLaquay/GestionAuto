@@ -3,14 +3,21 @@ package com.example.demo.models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 @Table
 public class Car {
 
     @Id
     private Long id;
+    @NotNull
     private Integer year;
+    @NotNull @NotBlank
     private String color;
+    @NotNull
     private Long modelId;
+    @NotNull @NotBlank
     private String imagePath;
 
     public Car(Integer year, String color, Long modelId, String imagePath) {

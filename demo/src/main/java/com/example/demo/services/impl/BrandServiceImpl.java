@@ -18,22 +18,23 @@ public class BrandServiceImpl implements BrandService {
         this.repository = repository;
     }
 
+    @Override
     public Flux<Brand> getAll() {
         return repository.findAll();
     }
-
+    @Override
     public Mono<Brand> getById(Long id) {
         return repository.findById(id);
     }
-
-    public Mono<Brand> addTodo(Brand brand) {
+    @Override
+    public Mono<Brand> add(Brand brand) {
         return repository.save(brand);
     }
-
-    public Mono<Brand> updateTodo(Brand brand) {
+    @Override
+    public Mono<Brand> update(Brand brand) {
         return repository.save(brand);
     }
-
+    @Override
     public Mono<Void> deleteById(Long id) {
         return repository.deleteById(id);
     }

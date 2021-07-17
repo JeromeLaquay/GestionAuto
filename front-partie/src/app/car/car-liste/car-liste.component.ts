@@ -24,8 +24,12 @@ export class CarListeComponent implements OnInit {
     })
   }
 
+  goToModifyCar(id: number){
+    this.router.navigate(['/cars/'+id]);
+  }
+
   goToNewCar(){
-    this.router.navigate(['/car/new'])
+    this.router.navigate(['/cars/new']);
   }
 
 }

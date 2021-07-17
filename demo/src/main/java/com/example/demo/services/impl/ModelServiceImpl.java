@@ -18,22 +18,27 @@ public class ModelServiceImpl implements ModelService {
         this.repository = repository;
     }
 
+    @Override
     public Flux<Model> getAll() {
         return repository.findAll();
     }
 
+    @Override
     public Mono<Model> getById(Long id) {
         return repository.findById(id);
     }
 
-    public Mono<Model> addTodo(Model model) {
+    @Override
+    public Mono<Model> add(Model model) {
         return repository.save(model);
     }
 
-    public Mono<Model> updateTodo(Model model) {
+    @Override
+    public Mono<Model> update(Model model) {
         return repository.save(model);
     }
 
+    @Override
     public Mono<Void> deleteById(Long id) {
         return repository.deleteById(id);
     }

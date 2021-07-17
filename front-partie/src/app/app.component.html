@@ -1,4 +1,9 @@
 <div style="text-align:center">
   <img height="300" alt="SimpsonsLogo" src="./assets/garage.jpg" routerLink="/home">
 </div>
+<div style="text-align:center" class="menu">
+  <button (click)="goToCars()">Voitures</button>
+  <button (click)="goToModels()">Modeles</button>
+  <button (click)="goToBrands()">Marques</button>
+</div>
 <router-outlet></router-outlet>
