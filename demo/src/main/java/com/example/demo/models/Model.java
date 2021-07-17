@@ -3,21 +3,19 @@ package com.example.demo.models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.util.Objects;
+
 @Table
-public class Car {
+public class Model {
 
     @Id
     private Long id;
-    private Integer year;
-    private String color;
-    private Long modelId;
-    private String imagePath;
+    private String name;
+    private Long brandId;
 
-    public Car(Integer year, String color, Long modelId, String imagePath) {
-        this.year = year;
-        this.color = color;
-        this.modelId = modelId;
-        this.imagePath = imagePath;
+    public Model(String name, Long brandId) {
+        this.name = name;
+        this.brandId = brandId;
     }
 
     public Long getId() {
@@ -28,35 +26,33 @@ public class Car {
         this.id = id;
     }
 
-    public Integer getYear() {
-        return year;
+    public String getName() {
+        return name;
     }
 
-    public void setYear(Integer year) {
-        this.year = year;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getColor() {
-        return color;
+    public Long getBrandId() {
+        return brandId;
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public void setBrandId(Long brandId) {
+        this.brandId = brandId;
     }
 
-    public Long getModelId() {
-        return modelId;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Model model = (Model) o;
+        return  Objects.equals(name, model.name) &&
+                Objects.equals(brandId, model.brandId);
     }
 
-    public void setModelId(Long modelId) {
-        this.modelId = modelId;
-    }
-
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, brandId);
     }
 }

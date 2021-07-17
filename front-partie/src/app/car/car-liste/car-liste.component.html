@@ -1,0 +1,9 @@
+<div>
+  <button (click)="goToNewCar()">Ajouter une nouvelle voiture</button>
+</div>
+<div class="card-container">
+    <ng-container *ngFor="let car of cars; let i = index">
+        <app-car-card
+          [car]="car"></app-car-card>
+    </ng-container>
+  </div>

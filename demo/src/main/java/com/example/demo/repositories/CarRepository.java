@@ -1,8 +1,8 @@
 package com.example.demo.repositories;
 
-import com.example.demo.models.Model;
+import com.example.demo.models.Car;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 
-public interface ModelRepository extends ReactiveCrudRepository<Model, Long> {
+public interface CarRepository extends ReactiveCrudRepository<Car, Long> {
 
 }
