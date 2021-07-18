@@ -21,10 +21,8 @@ public class CarController {
     @CrossOrigin
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    Flux<ResponseEntity<Car>> getAll() {
-        Flux<Car> models = service.getAll();
-        return models.map(u -> ResponseEntity.ok(u))
-                .defaultIfEmpty(ResponseEntity.notFound().build());
+    Flux<Car> getAll() {
+        return service.getAll();
     }
 
     @CrossOrigin
@@ -47,7 +45,7 @@ public class CarController {
 
     @CrossOrigin
     @PutMapping()
-    Mono<ResponseEntity<Car>> update(@RequestBody Car car) {
+    Mono<ResponseEntity<Car>> update(@RequestBody @Valid Car car) {
         Mono<Car> result = service.update(car);
         return result.map(u -> ResponseEntity.ok(u))
                 .defaultIfEmpty(ResponseEntity.badRequest().build());

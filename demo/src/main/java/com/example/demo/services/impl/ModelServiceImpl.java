@@ -11,12 +11,8 @@ import reactor.core.publisher.Mono;
 @Service
 public class ModelServiceImpl implements ModelService {
 
-    private ModelRepository repository;
-
     @Autowired
-    public ModelServiceImpl(ModelRepository repository) {
-        this.repository = repository;
-    }
+    private ModelRepository repository;
 
     @Override
     public Flux<Model> getAll() {

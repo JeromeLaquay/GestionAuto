@@ -1,7 +1,10 @@
+<div>
+  <button (click)="goToNewBrand()">Ajouter une nouvelle marque</button>
+</div>
 <div class="card-container">
     <ng-container *ngFor="let brand of brands; let i = index">
         <app-brand-card
           [brand]="brand"
-          (click)="goToModel(brand.id)"></app-brand-card>
+          (click)="goToModifyBrand(brand.id)"></app-brand-card>
     </ng-container>
   </div>

@@ -3,9 +3,9 @@ package com.example.demo.controllers;
 import com.example.demo.models.Model;
 import com.example.demo.repositories.ModelRepository;
 import com.example.demo.services.ModelService;
-import com.example.demo.services.impl.ModelServiceImpl;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -19,24 +19,25 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-@WebFluxTest(ModelController.class)
+@WebFluxTest
+@Import(ModelService.class)
 public class ModelControllerTest {
 
     @Autowired
-    WebTestClient webTestClient;
+    private WebTestClient webTestClient;
 
     @MockBean
-    private ModelRepository repository;
+    ModelRepository repository;
 
     @Test
-    public void testGetEmployeeById() {
+    public void testGetByIdOk() {
         Model model = new Model("name1", 1L);
         Mono<Model> modelMono = Mono.just(model);
 
         when(repository.findById(1L)).thenReturn(modelMono);
 
         webTestClient.get()
-                .uri("/employees/1")
+                .uri("/api/models/1")
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectStatus().isOk()

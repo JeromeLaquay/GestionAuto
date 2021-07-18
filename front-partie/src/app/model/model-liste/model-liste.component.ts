@@ -15,11 +15,11 @@ export class ModelListeComponent implements OnInit {
   constructor(private modelService: ModelService, private router: Router) { }
 
   ngOnInit(): void {
-    this.getAllCars();
+    this.getAllModels();
   }
 
-  getAllCars(){
-    this.modelService.getAllModels().subscribe((modelsData: Model[]) => {
+  getAllModels(){
+    this.modelService.getAll().subscribe((modelsData: Model[]) => {
       this.models = modelsData;
     })
   }

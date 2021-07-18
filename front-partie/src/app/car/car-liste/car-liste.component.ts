@@ -19,7 +19,7 @@ export class CarListeComponent implements OnInit {
   }
 
   getAllCars(){
-    this.carService.getAllCars().subscribe((carsData: Car[]) => {
+    this.carService.getAll().subscribe((carsData: Car[]) => {
       this.cars = carsData;
     })
   }

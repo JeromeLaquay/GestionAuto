@@ -19,13 +19,17 @@ export class BrandListeComponent implements OnInit {
   }
 
   getAllBrands(){
-    this.brandService.getAllBrands().subscribe((brandsData: Brand[]) => {
+    this.brandService.getAll().subscribe((brandsData: Brand[]) => {
       this.brands = brandsData;
     })
   }
 
-  goToModel(idBrand: number){
-    this.router.navigate(['models/'+idBrand]);
+  goToNewBrand(){
+    this.router.navigate(['brands/new']);
+  }
+
+  goToModifyBrand(id: number){
+    this.router.navigate(['brands/'+ id]);
   }
 
 

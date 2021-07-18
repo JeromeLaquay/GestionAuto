@@ -1,17 +1,34 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { Model } from '../interfaces/model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ModelService {
 
-  urlModel = '/models'
+  urlModel = '/models/'
 
   constructor(private http: HttpClient) { }
 
-  getAllModels(){
+  getAll(){
     return this.http.get(environment.urlApi + this.urlModel);
+  }
+
+  create(model: Model){
+    return this.http.post(environment.urlApi + this.urlModel, model);
+  }
+
+  modify(model: Model){
+    return this.http.put(environment.urlApi + this.urlModel, model);
+  }
+
+  getById(id: number){
+    return this.http.get(environment.urlApi + this.urlModel +id);
+  }
+
+  delete(id: number){
+    this.http.delete(environment.urlApi + this.urlModel +id);
   }
 }

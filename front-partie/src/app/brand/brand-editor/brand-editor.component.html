@@ -1,0 +1,18 @@
+<div>
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+    <div class="form-example">
+      <label for="name">Nom : </label>
+      <input class="form-control" id="name" formControlName="name" type="text">
+    </div>
+    <div class="form-example">
+      <label for="logo">Coller le lien du logo: </label>
+      <input class="form-control" id="logo" formControlName="logo" type="text">
+    </div>
+    <div class="form-example">
+      <button type="submit" [disabled]="!formGroup.valid">Modifier</button>
+    </div>
+  </form>
+</div>
+<div>
+    <button (click)="delete()">Supprimer</button>
+</div>

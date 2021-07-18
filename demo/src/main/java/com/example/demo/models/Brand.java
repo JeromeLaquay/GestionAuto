@@ -1,11 +1,12 @@
 package com.example.demo.models;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-
+@Table
 public class Brand {
 
     @Id

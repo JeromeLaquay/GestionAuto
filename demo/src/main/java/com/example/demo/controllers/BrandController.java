@@ -24,10 +24,8 @@ public class BrandController {
     @CrossOrigin
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    Flux<ResponseEntity<Brand>> getAll() {
-        Flux<Brand> models = service.getAll();
-        return models.map(u -> ResponseEntity.ok(u))
-                .defaultIfEmpty(ResponseEntity.notFound().build());
+    Flux<Brand> getAll() {
+        return service.getAll();
     }
 
     @CrossOrigin
@@ -50,7 +48,7 @@ public class BrandController {
 
     @CrossOrigin
     @PutMapping()
-    Mono<ResponseEntity<Brand>> update(@RequestBody Brand brand) {
+    Mono<ResponseEntity<Brand>> update(@RequestBody @Valid Brand brand) {
         Mono<Brand> result = service.update(brand);
         return result.map(u -> ResponseEntity.ok(u))
                 .defaultIfEmpty(ResponseEntity.badRequest().build());

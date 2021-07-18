@@ -25,10 +25,8 @@ public class ModelController {
     @CrossOrigin
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    Flux<ResponseEntity<Model>> getAll() {
-        Flux<Model> models = service.getAll();
-        return models.map(u -> ResponseEntity.ok(u))
-                .defaultIfEmpty(ResponseEntity.notFound().build());
+    Flux<Model> getAll() {
+        return service.getAll();
     }
 
     @CrossOrigin
@@ -51,7 +49,7 @@ public class ModelController {
 
     @CrossOrigin
     @PutMapping()
-    Mono<ResponseEntity<Model>> update(@RequestBody Model model) {
+    Mono<ResponseEntity<Model>> update(@RequestBody @Valid Model model) {
         Mono<Model> result = service.update(model);
         return result.map(u -> ResponseEntity.ok(u))
                 .defaultIfEmpty(ResponseEntity.badRequest().build());
