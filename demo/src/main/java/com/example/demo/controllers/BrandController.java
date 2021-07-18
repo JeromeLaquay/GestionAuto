@@ -2,6 +2,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.models.Brand;
 import com.example.demo.models.Car;
+import com.example.demo.models.Model;
 import com.example.demo.services.BrandService;
 import com.example.demo.services.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,24 +33,22 @@ public class BrandController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     Mono<ResponseEntity<Brand>> getById(@PathVariable("id") Long id) {
-        Mono<Brand> model = service.getById(id);
-        return model.map(u -> ResponseEntity.ok(u))
+        Mono<Brand> brand = service.getById(id);
+        return brand.map(u -> ResponseEntity.ok(u))
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @CrossOrigin
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    Mono<ResponseEntity<Brand>> add(@RequestBody @Valid Brand brand) {
-        Mono<Brand> result = service.add(brand);
-        return result.map(u -> ResponseEntity.ok(u))
-                .defaultIfEmpty(ResponseEntity.badRequest().build());
+    Mono<Brand> add(@RequestBody @Valid Brand brand) {
+        return service.add(brand);
     }
 
     @CrossOrigin
-    @PutMapping()
-    Mono<ResponseEntity<Brand>> update(@RequestBody @Valid Brand brand) {
-        Mono<Brand> result = service.update(brand);
+    @PutMapping("/{id}")
+    Mono<ResponseEntity<Brand>> update(@PathVariable("id") Long id, @RequestBody @Valid Brand brand) {
+        Mono<Brand> result = service.update(id,brand);
         return result.map(u -> ResponseEntity.ok(u))
                 .defaultIfEmpty(ResponseEntity.badRequest().build());
     }

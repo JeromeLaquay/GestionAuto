@@ -11,7 +11,7 @@ public interface BrandService {
 
     Mono<Brand> add(Brand brand);
 
-    Mono<Brand> update(Brand brand);
+    Mono<Brand> update(Long id,Brand brand);
 
     Mono<Void> deleteById(Long id);
 }

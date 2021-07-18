@@ -20,8 +20,8 @@ export class BrandService {
     return this.http.post(environment.urlApi + this.urlBrand, brand);
   }
 
-  modify(brand: Brand){
-    return this.http.put(environment.urlApi + this.urlBrand, brand);
+  modify(id: number,brand: Brand){
+    return this.http.put(environment.urlApi + this.urlBrand + id, brand);
   }
 
   getById(id: number){

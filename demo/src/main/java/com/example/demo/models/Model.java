@@ -47,16 +47,11 @@ public class Model {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Model model = (Model) o;
-        return  Objects.equals(name, model.name) &&
-                Objects.equals(brandId, model.brandId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, brandId);
+    public String toString() {
+        return "Model{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", brandId=" + brandId +
+                '}';
     }
 }

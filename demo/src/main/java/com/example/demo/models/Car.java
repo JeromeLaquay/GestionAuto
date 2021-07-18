@@ -67,4 +67,14 @@ public class Car {
         this.imagePath = imagePath;
     }
 
+    @Override
+    public String toString() {
+        return "Car{" +
+                "id=" + id +
+                ", year=" + year +
+                ", color='" + color + '\'' +
+                ", modelId=" + modelId +
+                ", imagePath='" + imagePath + '\'' +
+                '}';
+    }
 }

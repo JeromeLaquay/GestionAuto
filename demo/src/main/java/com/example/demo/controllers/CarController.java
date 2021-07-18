@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import com.example.demo.models.Brand;
 import com.example.demo.models.Car;
 import com.example.demo.services.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,24 +30,22 @@ public class CarController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     Mono<ResponseEntity<Car>> getById(@PathVariable("id") Long id) {
-        Mono<Car> model = service.getById(id);
-        return model.map(u -> ResponseEntity.ok(u))
+        Mono<Car> car = service.getById(id);
+        return car.map(u -> ResponseEntity.ok(u))
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @CrossOrigin
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    Mono<ResponseEntity<Car>> add(@RequestBody @Valid Car car) {
-        Mono<Car> result = service.add(car);
-        return result.map(u -> ResponseEntity.ok(u))
-                .defaultIfEmpty(ResponseEntity.badRequest().build());
+    Mono<Car> add(@RequestBody @Valid Car car) {
+        return service.add(car);
     }
 
     @CrossOrigin
-    @PutMapping()
-    Mono<ResponseEntity<Car>> update(@RequestBody @Valid Car car) {
-        Mono<Car> result = service.update(car);
+    @PutMapping("/{id}")
+    Mono<ResponseEntity<Car>> update(@PathVariable("id") Long id, @RequestBody @Valid Car car) {
+        Mono<Car> result = service.update(id,car);
         return result.map(u -> ResponseEntity.ok(u))
                 .defaultIfEmpty(ResponseEntity.badRequest().build());
     }

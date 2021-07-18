@@ -39,8 +39,7 @@ export class BrandEditorComponent implements OnInit {
   onSubmit(){
     console.log(this.formGroup.value);
     this.brand = this.formGroup.value;
-    this.brand.id = this.id;
-    this.brandService.modify(this.brand)
+    this.brandService.modify(this.id,this.brand)
     .subscribe(
       (brandData: Brand) => {
         this.router.navigate(['brands']);

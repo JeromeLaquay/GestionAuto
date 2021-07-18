@@ -41,16 +41,14 @@ public class ModelController {
     @CrossOrigin
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    Mono<ResponseEntity<Model>> add(@RequestBody @Valid Model model) {
-        Mono<Model> result = service.add(model);
-        return result.map(u -> ResponseEntity.ok(u))
-                .defaultIfEmpty(ResponseEntity.badRequest().build());
+    Mono<Model> add(@RequestBody @Valid Model model) {
+       return service.add(model);
     }
 
     @CrossOrigin
-    @PutMapping()
-    Mono<ResponseEntity<Model>> update(@RequestBody @Valid Model model) {
-        Mono<Model> result = service.update(model);
+    @PutMapping("/{id}")
+    Mono<ResponseEntity<Model>> update(@PathVariable("id") Long id, @RequestBody @Valid Model model) {
+        Mono<Model> result = service.update(id,model);
         return result.map(u -> ResponseEntity.ok(u))
                 .defaultIfEmpty(ResponseEntity.badRequest().build());
     }

@@ -5,10 +5,12 @@ import com.example.demo.repositories.ModelRepository;
 import com.example.demo.services.ModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
+@Transactional
 public class ModelServiceImpl implements ModelService {
 
     @Autowired
@@ -30,8 +32,13 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
-    public Mono<Model> update(Model model) {
-        return repository.save(model);
+    public Mono<Model> update(Long id, Model model) {
+        return repository.findById(id)
+                .flatMap(db -> {
+                    db.setName(model.getName());
+                    db.setBrandId(model.getBrandId());
+                    return repository.save(db);
+                });
     }
 
     @Override

@@ -12,7 +12,7 @@ public interface CarService {
 
     Mono<Car> add(Car car);
 
-    Mono<Car> update(Car car);
+    Mono<Car> update(Long id, Car car);
 
     Mono<Void> deleteById(Long id);
 }

@@ -1,6 +1,7 @@
 package com.example.demo.services.impl;
 
 import com.example.demo.models.Brand;
+import com.example.demo.models.Model;
 import com.example.demo.repositories.BrandRepository;
 import com.example.demo.services.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,13 @@ public class BrandServiceImpl implements BrandService {
         return repository.save(brand);
     }
     @Override
-    public Mono<Brand> update(Brand brand) {
-        return repository.save(brand);
+    public Mono<Brand> update(Long id, Brand model) {
+        return repository.findById(id)
+                .flatMap(db -> {
+                    db.setName(model.getName());
+                    db.setLogo(model.getLogo());
+                    return repository.save(db);
+                });
     }
     @Override
     public Mono<Void> deleteById(Long id) {

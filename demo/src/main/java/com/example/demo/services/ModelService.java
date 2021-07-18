@@ -12,7 +12,7 @@ public interface ModelService {
 
     Mono<Model> add(Model model);
 
-    Mono<Model> update(Model model);
+    Mono<Model> update(Long id,Model model);
 
     Mono<Void> deleteById(Long id);
 }

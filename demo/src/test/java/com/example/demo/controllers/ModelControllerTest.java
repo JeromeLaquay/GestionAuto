@@ -3,74 +3,152 @@ package com.example.demo.controllers;
 import com.example.demo.models.Model;
 import com.example.demo.repositories.ModelRepository;
 import com.example.demo.services.ModelService;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.r2dbc.core.DatabaseClient;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.Mockito.when;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.result.StatusResultMatchersExtensionsKt.isEqualTo;
 
 @ExtendWith(SpringExtension.class)
-@WebFluxTest
-@Import(ModelService.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@DirtiesContext
+@AutoConfigureWebTestClient
+@ActiveProfiles("test")
 public class ModelControllerTest {
 
     @Autowired
     private WebTestClient webTestClient;
 
-    @MockBean
-    ModelRepository repository;
+    @Autowired
+    private ModelRepository repository;
+
+    @Autowired
+    private ModelService service;
+
+
+    @Autowired
+    private DatabaseClient databaseClient;
+
+
+    private List<Model> getData() {
+        return Arrays.asList(new Model("name1", 1L),
+                new Model("name2", 2L),
+                new Model("name3", 3L));
+    }
+
+    @BeforeEach
+    public void setup() {
+        List<String> statements = Arrays.asList("DROP TABLE IF EXISTS MODEL ;",
+                "CREATE TABLE MODEL (id SERIAL PRIMARY KEY, name varchar (255), brand_id INTEGER);");
+
+        statements.forEach(it -> databaseClient.execute(it)
+                .fetch()
+                .rowsUpdated()
+                .block());
+
+        repository.deleteAll()
+                .thenMany(Flux.fromIterable(getData()))
+                .flatMap(repository::save)
+                .doOnNext(model -> {
+                    System.out.println("Model Inserted from ModelControllerTest: " + model.toString());
+                })
+                .blockLast();
+
+    }
 
     @Test
-    public void testGetByIdOk() {
-        Model model = new Model("name1", 1L);
-        Mono<Model> modelMono = Mono.just(model);
+    public void testGetAllValidateCount() {
+        webTestClient.get().uri("/api/models").exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectBodyList(Model.class)
+                .hasSize(3)
+                .consumeWith(model -> {
+                    List<Model> models = model.getResponseBody();
+                    models.forEach(u -> {
+                        assertTrue(u.getId() != null);
+                    });
+                });
+    }
+    @Test
+    public void testGetAllValidateResponse(){
+        Flux<Model> modelFlux = webTestClient.get().uri("/api/models").exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON_VALUE)
+                .returnResult(Model.class)
+                .getResponseBody();
+        StepVerifier.create(modelFlux.log("Receiving values !!!"))
+                .expectNextCount(3)
+                .verifyComplete();
 
-        when(repository.findById(1L)).thenReturn(modelMono);
-
-        webTestClient.get()
-                .uri("/api/models/1")
-                .accept(MediaType.APPLICATION_JSON)
+    }
+    @Test
+    public void testGetById(){
+        webTestClient.get().uri("/api/models/2")
+                .exchange().expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$.name").isEqualTo("name2");
+    }
+    @Test
+    public void testGetById_NotFound(){
+        webTestClient.get().uri("/api/models/18")
+                .exchange().expectStatus().isNotFound();
+    }
+    @Test
+    public void testCreate(){
+        Model model = new Model("name4",6L);
+        webTestClient.post().uri("/api/models").contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
+                .body(Mono.just(model),Model.class)
+                .exchange()
+                .expectStatus().isCreated()
+                .expectBody()
+                .jsonPath("$.id").isNotEmpty()
+                .jsonPath("$.name").isEqualTo("name4");
+    }
+    @Test
+    public void testDelete(){
+        webTestClient.delete().uri("/api/models/1")
+                .accept(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
                 .exchange()
                 .expectStatus().isOk()
-                .expectBody(Model.class)
-                .value(employee1 -> model.getName(), equalTo("name1"));
+                .expectBody(Void.class);
     }
-
-    /** @Test public void testDeleteEmployeeById() {
-
-    when(employeeService.deleteEmployeeById(1)).thenReturn(Mono.just("Employee with id 1 is deleted."));
-
-    webTestClient.delete()
-    .uri("/employees/1")
-    .exchange()
-    .expectStatus().isOk()
-    .expectBody(String.class)
-    .isEqualTo("Employee with id 1 is deleted.");
-
+    @Test
+    public void testUpdate(){
+        Model model = new Model("name10",10L);
+        webTestClient.put().uri("/api/models/1")
+                .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
+                .accept(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
+                .body(Mono.just(model),Model.class)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$.name").isEqualTo("name10");
     }
-
-     @Test public void testCreateEmployee() {
-
-     Employee employee = Employee.builder().id(1).city("delhi").age(23).name("ABC").build();
-     Mono<Employee> employeeMono = Mono.just(employee);
-     when(employeeService.createEmployee(employee)).thenReturn(employeeMono);
-
-     webTestClient.post()
-     .uri("/employees")
-     .contentType(MediaType.APPLICATION_JSON)
-     .accept(MediaType.APPLICATION_JSON)
-     .body(Mono.just(employee), Employee.class)
-     .exchange()
-     .expectStatus().isCreated();
-
-     } **/
+    @Test
+    public void testUpdate_notFound(){
+        Model model = new Model("name20",20L);
+        webTestClient.put().uri("/api/models/6")
+                .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
+                .accept(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
+                .body(Mono.just(model),Model.class)
+                .exchange()
+                .expectStatus().is4xxClientError();
+    }
 }

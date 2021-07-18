@@ -1,6 +1,7 @@
 package com.example.demo.services.impl;
 
 import com.example.demo.models.Car;
+import com.example.demo.models.Model;
 import com.example.demo.repositories.CarRepository;
 import com.example.demo.repositories.ModelRepository;
 import com.example.demo.services.CarService;
@@ -31,8 +32,15 @@ public class CarServiceImpl implements CarService {
         return repository.save(car);
     }
     @Override
-    public Mono<Car> update(Car car) {
-        return repository.save(car);
+    public Mono<Car> update(Long id, Car car) {
+        return repository.findById(id)
+                .flatMap(db -> {
+                    db.setColor(car.getColor());
+                    db.setImagePath(car.getImagePath());
+                    db.setModelId(car.getModelId());
+                    db.setYear(car.getYear());
+                    return repository.save(db);
+                });
     }
     @Override
     public Mono<Void> deleteById(Long id) {

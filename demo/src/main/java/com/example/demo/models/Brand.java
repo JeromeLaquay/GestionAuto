@@ -44,4 +44,13 @@ public class Brand {
     public void setLogo(String logo) {
         this.logo = logo;
     }
+
+    @Override
+    public String toString() {
+        return "Brand{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", logo='" + logo + '\'' +
+                '}';
+    }
 }
