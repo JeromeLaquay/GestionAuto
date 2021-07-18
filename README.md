@@ -9,6 +9,8 @@ pour le back Java:
 -installer les dépendances si besoin avec un maven update
 -lancer le serveur qui démarrera sur le port 8080
 
+-swagger disponible à l'url: http://localhost:8080/swagger-ui.html
+
 pour le front angular : 
 -dans la console, se placer dans le dossier "front-partie"
 -lancer "npm i" pour installer les dépendances
