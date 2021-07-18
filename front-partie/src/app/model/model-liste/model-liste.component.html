@@ -1,6 +1,15 @@
+<div>
+  <button (click)="goToNewModel()">Ajouter un nouveau modèle</button>
+  <label for="brand">Trier par marque : </label>
+  <select id="brand" (change)="selectBrandChange($event.target.value)">
+    <option selected></option>
+    <option *ngFor="let brand of brands" [value]="brand.id" >{{brand.name}}</option>
+</select>
+</div>
 <div class="card-container">
     <ng-container *ngFor="let model of models; let i = index">
         <app-model-card
-          [model]="model"></app-model-card>
+          [model]="model"
+          (click)="goToModifyModel(model.id)"></app-model-card>
     </ng-container>
   </div>

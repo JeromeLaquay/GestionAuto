@@ -22,6 +22,11 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
+    public Flux<Model> getByBrandId(Long brandId) {
+        return repository.findByBrandId(brandId);
+    }
+
+    @Override
     public Mono<Model> getById(Long id) {
         return repository.findById(id);
     }

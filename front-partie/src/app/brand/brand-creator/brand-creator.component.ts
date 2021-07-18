@@ -13,13 +13,12 @@ export class BrandCreatorComponent implements OnInit {
 
   public brand: Brand;
   public formGroup: FormGroup;
-  public brandCreated: Brand;
   constructor(private brandService: BrandService, private router: Router, private actRoute: ActivatedRoute, private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.formGroup = new FormGroup({
-      name: new FormControl(''),
-      logo: new FormControl('')
+      name: new FormControl('', Validators.required),
+      logo: new FormControl('', Validators.required)
     });  
   }
 

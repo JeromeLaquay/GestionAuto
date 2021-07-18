@@ -29,6 +29,6 @@ export class CarService {
   }
 
   delete(id: number){
-    this.http.delete(environment.urlApi + this.urlCar +id);
+    return this.http.delete(environment.urlApi + this.urlCar +id);
   }
 }

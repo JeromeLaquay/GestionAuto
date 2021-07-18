@@ -5,13 +5,17 @@ import { CarListeComponent } from './car-liste/car-liste.component';
 import { CarCardComponent } from './car-card/car-card.component';
 import { NewCarComponent } from './new-car/new-car.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CarCreatorComponent } from './car-creator/car-creator.component';
+import { CarEditorComponent } from './car-editor/car-editor.component';
 
 @NgModule({
   // declaration des composants, directives, pipes... du module
   declarations: [
     CarListeComponent,
     CarCardComponent,
-    NewCarComponent
+    NewCarComponent,
+    CarCreatorComponent,
+    CarEditorComponent
   ],
   // import nécessaire au module pour fonctionner
   imports: [

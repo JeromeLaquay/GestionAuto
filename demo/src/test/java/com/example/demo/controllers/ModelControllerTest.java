@@ -89,6 +89,19 @@ public class ModelControllerTest {
     }
 
     @Test
+    public void testGetByBrandValidateResponse() {
+        Flux<Model> modelFlux = webTestClient.get().uri("/api/models/brands/1").exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON_VALUE)
+                .returnResult(Model.class)
+                .getResponseBody();
+        StepVerifier.create(modelFlux.log("Receiving values !!!"))
+                .expectNextCount(1)
+                .verifyComplete();
+
+    }
+
+    @Test
     public void testGetById() {
         webTestClient.get().uri("/api/models/2")
                 .exchange().expectStatus().isOk()

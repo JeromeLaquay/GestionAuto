@@ -13,7 +13,6 @@ export class BrandEditorComponent implements OnInit {
 
   public brand: Brand;
   public formGroup: FormGroup;
-  public brandCreated: Brand;
   private id: number;
   constructor(private brandService: BrandService, private router: Router, private actRoute: ActivatedRoute, private fb: FormBuilder) { }
 

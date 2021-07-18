@@ -1,11 +1,14 @@
 <div>
+    <h2>Edition d'une marque</h2>
+</div>
+<div>
     <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
     <div class="form-example">
       <label for="name">Nom : </label>
       <input class="form-control" id="name" formControlName="name" type="text">
     </div>
     <div class="form-example">
-      <label for="logo">Coller le lien du logo: </label>
+      <label for="logo">Coller l'url du logo: </label>
       <input class="form-control" id="logo" formControlName="logo" type="text">
     </div>
     <div class="form-example">

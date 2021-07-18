@@ -5,7 +5,6 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Objects;
 
 @Table
 public class Model {

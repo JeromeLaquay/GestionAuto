@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { ModelCreatorComponent } from './model-creator/model-creator.component';
+import { ModelEditorComponent } from './model-editor/model-editor.component';
 import { ModelListeComponent } from './model-liste/model-liste.component';
 
 
@@ -9,8 +11,12 @@ const routes: Routes = [
     component: ModelListeComponent
   },
   {
+    path: 'new',
+    component: ModelCreatorComponent
+  },
+  {
     path: ':id',
-    component: ModelListeComponent
+    component: ModelEditorComponent
   }
 ];
 

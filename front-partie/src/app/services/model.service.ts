@@ -29,6 +29,10 @@ export class ModelService {
   }
 
   delete(id: number){
-    this.http.delete(environment.urlApi + this.urlModel +id);
+    return this.http.delete(environment.urlApi + this.urlModel +id);
+  }
+
+  getByBrand(brandId: number){
+    return this.http.get(environment.urlApi + this.urlModel +'brands/'+brandId);
   }
 }

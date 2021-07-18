@@ -1,0 +1,23 @@
+<div>
+    <h2>Edition d'un modèle</h2>
+</div>
+<div>
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+        <div class="form-example">
+            <label for="brand">Marque du modèle : </label>
+            <select formControlName="brandId" id="brand">
+                <option *ngFor="let brand of brands" [ngValue]="brand.id">{{brand.name}}</option>
+            </select>`
+        </div>
+        <div class="form-example">
+            <label for="name">Nom du modèle : </label>
+            <input class="form-control" id="name" formControlName="name" type="text">
+        </div>
+        <div class="form-example">
+            <button type="submit" [disabled]="!formGroup.valid">Créer</button>
+        </div>
+    </form>
+</div>
+<div>
+    <button (click)="delete()">Supprimer</button>
+</div>

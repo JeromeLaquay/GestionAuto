@@ -30,6 +30,13 @@ public class ModelController {
     }
 
     @CrossOrigin
+    @GetMapping("/brands/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    Flux<Model> getByBrand(@PathVariable("id") Long brandId) {
+        return service.getByBrandId(brandId);
+    }
+
+    @CrossOrigin
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     Mono<ResponseEntity<Model>> getById(@PathVariable("id") Long id) {

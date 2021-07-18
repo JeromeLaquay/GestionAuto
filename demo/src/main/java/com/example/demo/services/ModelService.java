@@ -8,6 +8,8 @@ public interface ModelService {
 
     Flux<Model> getAll();
 
+    Flux<Model> getByBrandId(Long brandId);
+
     Mono<Model> getById(Long id);
 
     Mono<Model> add(Model model);
