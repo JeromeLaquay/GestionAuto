@@ -14,5 +14,5 @@ public interface CarService {
 
     Mono<Car> update(Long id, Car car);
 
-    Mono<Void> deleteById(Long id);
+    Mono<Car> deleteById(Long id);
 }

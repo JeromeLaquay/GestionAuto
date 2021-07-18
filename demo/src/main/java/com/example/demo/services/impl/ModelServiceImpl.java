@@ -42,7 +42,9 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
-    public Mono<Void> deleteById(Long id) {
-        return repository.deleteById(id);
+    public Mono<Model> deleteById(Long id) {
+        return repository.findById(id)
+                .flatMap(existing -> repository.delete(existing)
+                        .then(Mono.just(existing)));
     }
 }

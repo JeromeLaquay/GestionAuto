@@ -56,7 +56,9 @@ public class BrandController {
     @CrossOrigin
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    Mono<Void> deleteById(@PathVariable("id") Long id) {
-        return service.deleteById(id);
+    Mono<ResponseEntity<Void>> deleteById(@PathVariable("id") Long id) {
+        return service.deleteById(id)
+                .map( r -> ResponseEntity.ok().<Void>build())
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 }

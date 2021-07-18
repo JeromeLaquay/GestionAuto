@@ -3,7 +3,6 @@ package com.example.demo.services.impl;
 import com.example.demo.models.Car;
 import com.example.demo.models.Model;
 import com.example.demo.repositories.CarRepository;
-import com.example.demo.repositories.ModelRepository;
 import com.example.demo.services.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,18 +18,22 @@ public class CarServiceImpl implements CarService {
     public CarServiceImpl(CarRepository repository) {
         this.repository = repository;
     }
+
     @Override
     public Flux<Car> getAll() {
         return repository.findAll();
     }
+
     @Override
     public Mono<Car> getById(Long id) {
         return repository.findById(id);
     }
+
     @Override
     public Mono<Car> add(Car car) {
         return repository.save(car);
     }
+
     @Override
     public Mono<Car> update(Long id, Car car) {
         return repository.findById(id)
@@ -42,8 +45,11 @@ public class CarServiceImpl implements CarService {
                     return repository.save(db);
                 });
     }
+
     @Override
-    public Mono<Void> deleteById(Long id) {
-        return repository.deleteById(id);
+    public Mono<Car> deleteById(Long id) {
+        return repository.findById(id)
+                .flatMap(existing -> repository.delete(existing)
+                        .then(Mono.just(existing)));
     }
 }

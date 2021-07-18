@@ -1,8 +1,7 @@
 package com.example.demo.controllers;
 
-import com.example.demo.models.Model;
-import com.example.demo.repositories.ModelRepository;
-import com.example.demo.services.ModelService;
+import com.example.demo.models.Car;
+import com.example.demo.repositories.CarRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,28 +21,28 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @AutoConfigureWebTestClient
-public class ModelControllerTest {
+public class CarControllerTest {
 
     @Autowired
     private WebTestClient webTestClient;
 
     @Autowired
-    private ModelRepository repository;
+    private CarRepository repository;
 
     @Autowired
     private DatabaseClient databaseClient;
 
 
-    private List<Model> getData() {
-        return Arrays.asList(new Model("name1", 1L),
-                new Model("name2", 2L),
-                new Model("name3", 3L));
+    private List<Car> getData() {
+        return Arrays.asList(new Car(1990, "bleu", 1L, "image1"),
+                new Car(1990, "rouge", 2L, "image2"),
+                new Car(1990, "bleu", 3L, "image3"));
     }
 
     @BeforeEach
     public void setup() {
-        List<String> statements = Arrays.asList("DROP TABLE IF EXISTS MODEL ;",
-                "CREATE TABLE MODEL (id SERIAL PRIMARY KEY, name varchar (255), brand_id INTEGER);");
+        List<String> statements = Arrays.asList("DROP TABLE IF EXISTS CAR ;",
+                "CREATE TABLE CAR (id SERIAL PRIMARY KEY, year INTEGER, color varchar (255), model_id INTEGER, image_path varchar (255) not null);");
 
         statements.forEach(it -> databaseClient.execute(it)
                 .fetch()
@@ -54,7 +53,7 @@ public class ModelControllerTest {
                 .thenMany(Flux.fromIterable(getData()))
                 .flatMap(repository::save)
                 .doOnNext(model -> {
-                    System.out.println("Model Inserted from ModelControllerTest: " + model.toString());
+                    System.out.println("Car Inserted from CarControllerTest: " + model.toString());
                 })
                 .blockLast();
 
@@ -62,14 +61,14 @@ public class ModelControllerTest {
 
     @Test
     public void testGetAllValidateCount() {
-        webTestClient.get().uri("/api/models").exchange()
+        webTestClient.get().uri("/api/cars").exchange()
                 .expectStatus().isOk()
                 .expectHeader().contentType(MediaType.APPLICATION_JSON_VALUE)
-                .expectBodyList(Model.class)
+                .expectBodyList(Car.class)
                 .hasSize(3)
-                .consumeWith(model -> {
-                    List<Model> models = model.getResponseBody();
-                    models.forEach(u -> {
+                .consumeWith(brand -> {
+                    List<Car> brands = brand.getResponseBody();
+                    brands.forEach(u -> {
                         assertTrue(u.getId() != null);
                     });
                 });
@@ -77,12 +76,12 @@ public class ModelControllerTest {
 
     @Test
     public void testGetAllValidateResponse() {
-        Flux<Model> modelFlux = webTestClient.get().uri("/api/models").exchange()
+        Flux<Car> carFlux = webTestClient.get().uri("/api/cars").exchange()
                 .expectStatus().isOk()
                 .expectHeader().contentType(MediaType.APPLICATION_JSON_VALUE)
-                .returnResult(Model.class)
+                .returnResult(Car.class)
                 .getResponseBody();
-        StepVerifier.create(modelFlux.log("Receiving values !!!"))
+        StepVerifier.create(carFlux.log("Receiving values !!!"))
                 .expectNextCount(3)
                 .verifyComplete();
 
@@ -90,33 +89,34 @@ public class ModelControllerTest {
 
     @Test
     public void testGetById() {
-        webTestClient.get().uri("/api/models/2")
+        webTestClient.get().uri("/api/cars/2")
                 .exchange().expectStatus().isOk()
                 .expectBody()
-                .jsonPath("$.name").isEqualTo("name2");
+                .jsonPath("$.color").isEqualTo("rouge");
     }
 
     @Test
     public void testGetById_NotFound() {
-        webTestClient.get().uri("/api/models/18")
+        webTestClient.get().uri("/api/cars/18")
                 .exchange().expectStatus().isNotFound();
     }
 
     @Test
     public void testCreate() {
-        Model model = new Model("name4", 6L);
-        webTestClient.post().uri("/api/models").contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
-                .body(Mono.just(model), Model.class)
+        Car model = new Car(1990, "bleu", 1L, "image1");
+        webTestClient.post().uri("/api/cars").contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
+                .body(Mono.just(model), Car.class)
                 .exchange()
                 .expectStatus().isCreated()
                 .expectBody()
                 .jsonPath("$.id").isNotEmpty()
-                .jsonPath("$.name").isEqualTo("name4");
+                .jsonPath("$.color").isEqualTo("bleu")
+                .jsonPath("$.year").isEqualTo("1990");
     }
 
     @Test
     public void testDelete() {
-        webTestClient.delete().uri("/api/models/1")
+        webTestClient.delete().uri("/api/cars/1")
                 .accept(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
                 .exchange()
                 .expectStatus().isOk()
@@ -125,7 +125,7 @@ public class ModelControllerTest {
 
     @Test
     public void testDelete_notFound() {
-        webTestClient.delete().uri("/api/models/10")
+        webTestClient.delete().uri("/api/cars/10")
                 .accept(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
                 .exchange()
                 .expectStatus().isNotFound();
@@ -133,24 +133,27 @@ public class ModelControllerTest {
 
     @Test
     public void testUpdate() {
-        Model model = new Model("name10", 10L);
-        webTestClient.put().uri("/api/models/1")
+        Car car = new Car(1990, "bleu", 1L, "image1");
+        webTestClient.put().uri("/api/cars/1")
                 .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
                 .accept(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
-                .body(Mono.just(model), Model.class)
+                .body(Mono.just(car), Car.class)
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody()
-                .jsonPath("$.name").isEqualTo("name10");
+                .jsonPath("$.color").isEqualTo("bleu")
+                .jsonPath("$.year").isEqualTo(1990);
+        ;
+
     }
 
     @Test
     public void testUpdate_notFound() {
-        Model model = new Model("name20", 20L);
-        webTestClient.put().uri("/api/models/6")
+        Car car = new Car(1990, "bleu", 1L, "image1");
+        webTestClient.put().uri("/api/cars/6")
                 .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
                 .accept(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
-                .body(Mono.just(model), Model.class)
+                .body(Mono.just(car), Car.class)
                 .exchange()
                 .expectStatus().is4xxClientError();
     }

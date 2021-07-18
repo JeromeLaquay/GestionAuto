@@ -14,5 +14,5 @@ public interface ModelService {
 
     Mono<Model> update(Long id,Model model);
 
-    Mono<Void> deleteById(Long id);
+    Mono<Model> deleteById(Long id);
 }

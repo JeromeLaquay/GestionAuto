@@ -41,7 +41,9 @@ public class BrandServiceImpl implements BrandService {
                 });
     }
     @Override
-    public Mono<Void> deleteById(Long id) {
-        return repository.deleteById(id);
+    public Mono<Brand> deleteById(Long id) {
+        return repository.findById(id)
+                .flatMap(existing -> repository.delete(existing)
+                        .then(Mono.just(existing)));
     }
 }
