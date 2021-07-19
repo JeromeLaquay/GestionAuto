@@ -5,4 +5,5 @@ export interface Model {
     name: string;
     brandId: number;
     brand: Brand;
+    imagePath: string;
   }

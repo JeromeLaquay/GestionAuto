@@ -1,8 +1,17 @@
 <div>
   <button (click)="goToNewCar()">Ajouter une nouvelle voiture</button>
+  <label for="brand">Trier par marque : </label>
+  <select id="brand" (change)="selectBrandChange($event.target.value)">
+    <option selected></option>
+    <option *ngFor="let brand of brands" [value]="brand.name" >{{brand.name}}</option>
+</select>
+<select id="brand" (change)="selectModelChange($event.target.value)">
+  <option selected></option>
+  <option *ngFor="let model of modelsFiltered" [value]="model.name" >{{model.name}}</option>
+</select>
 </div>
 <div class="card-container">
-    <ng-container *ngFor="let car of cars; let i = index">
+    <ng-container *ngFor="let car of carsFiltered; let i = index">
         <app-car-card
           [car]="car"
           (click)="goToModifyCar(car.id)"></app-car-card>

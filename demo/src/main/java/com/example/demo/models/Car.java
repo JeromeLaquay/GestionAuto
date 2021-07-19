@@ -16,15 +16,18 @@ public class Car {
     @NotNull @NotBlank
     private String color;
     @NotNull
-    private Long modelId;
-    @NotNull @NotBlank
-    private String imagePath;
+    private Integer mileage;
 
-    public Car(Integer year, String color, Long modelId, String imagePath) {
+    private String owner;
+    @NotNull
+    private Long modelId;
+
+    public Car(@NotNull Integer year, @NotNull @NotBlank String color, @NotNull Integer mileage, String owner, @NotNull Long modelId) {
         this.year = year;
         this.color = color;
+        this.mileage = mileage;
+        this.owner = owner;
         this.modelId = modelId;
-        this.imagePath = imagePath;
     }
 
     public Long getId() {
@@ -51,6 +54,22 @@ public class Car {
         this.color = color;
     }
 
+    public Integer getMileage() {
+        return mileage;
+    }
+
+    public void setMileage(Integer mileage) {
+        this.mileage = mileage;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
     public Long getModelId() {
         return modelId;
     }
@@ -59,22 +78,15 @@ public class Car {
         this.modelId = modelId;
     }
 
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
-    }
-
     @Override
     public String toString() {
         return "Car{" +
                 "id=" + id +
                 ", year=" + year +
                 ", color='" + color + '\'' +
+                ", mileage=" + mileage +
+                ", owner='" + owner + '\'' +
                 ", modelId=" + modelId +
-                ", imagePath='" + imagePath + '\'' +
                 '}';
     }
 }

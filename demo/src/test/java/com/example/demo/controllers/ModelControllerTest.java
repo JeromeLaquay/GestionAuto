@@ -35,15 +35,15 @@ public class ModelControllerTest {
 
 
     private List<Model> getData() {
-        return Arrays.asList(new Model("name1", 1L),
-                new Model("name2", 2L),
-                new Model("name3", 3L));
+        return Arrays.asList(new Model("name1", 1L, "image1"),
+                new Model("name2", 2L, "image2"),
+                new Model("name3", 3L, "image3"));
     }
 
     @BeforeEach
     public void setup() {
         List<String> statements = Arrays.asList("DROP TABLE IF EXISTS MODEL ;",
-                "CREATE TABLE MODEL (id SERIAL PRIMARY KEY, name varchar (255), brand_id INTEGER);");
+                "CREATE TABLE MODEL (id SERIAL PRIMARY KEY, name varchar (255), brand_id INTEGER, image_path varchar (255) not null);");
 
         statements.forEach(it -> databaseClient.execute(it)
                 .fetch()
@@ -117,7 +117,7 @@ public class ModelControllerTest {
 
     @Test
     public void testCreate() {
-        Model model = new Model("name4", 6L);
+        Model model = new Model("name4", 6L, "image1");
         webTestClient.post().uri("/api/models").contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
                 .body(Mono.just(model), Model.class)
                 .exchange()
@@ -146,7 +146,7 @@ public class ModelControllerTest {
 
     @Test
     public void testUpdate() {
-        Model model = new Model("name10", 10L);
+        Model model = new Model("name10", 10L, "image1");
         webTestClient.put().uri("/api/models/1")
                 .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
                 .accept(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
@@ -159,7 +159,7 @@ public class ModelControllerTest {
 
     @Test
     public void testUpdate_notFound() {
-        Model model = new Model("name20", 20L);
+        Model model = new Model("name20", 20L, "image1");
         webTestClient.put().uri("/api/models/6")
                 .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
                 .accept(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))

@@ -21,7 +21,8 @@ export class ModelCreatorComponent implements OnInit {
   ngOnInit(): void {
     this.formGroup = new FormGroup({
       name: new FormControl('', Validators.required),
-      brandId: new FormControl('', Validators.required)
+      brandId: new FormControl('', Validators.required),
+      imagePath: new FormControl('', Validators.required)
     });  
     this.getAllBrands();
   }

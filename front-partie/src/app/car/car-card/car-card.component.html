@@ -1,5 +1,10 @@
 <div class="card">
-    <div class="card-name">annee : {{car.year}}</div>
-    <div class="card-name">couleur : {{car.color}}</div>
-    <img class="card-img" [src]="car.imagePath" />
+    <div class="card-name">Marque : {{car.model.brand.name}}</div>
+    <div class="card-name">Modèle : {{car.model.name}}</div>
+    <div class="card-name">Couleur : {{car.color}}</div>
+    <div class="card-name">Année : {{car.year}}</div>
+    <div class="card-name">Kilomètrage : {{car.mileage}}</div>
+    <div class="card-name">Propriètaire : {{car.owner}}</div>
+    <div style="color:red"> Photo non contractuelle</div>
+    <img class="card-img" [src]="car.model.imagePath" />
 </div>

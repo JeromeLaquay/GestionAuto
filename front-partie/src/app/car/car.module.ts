@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { CarRoutingModule } from './car-routing.module';
 import { CarListeComponent } from './car-liste/car-liste.component';
 import { CarCardComponent } from './car-card/car-card.component';
-import { NewCarComponent } from './new-car/new-car.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CarCreatorComponent } from './car-creator/car-creator.component';
 import { CarEditorComponent } from './car-editor/car-editor.component';
@@ -13,7 +12,6 @@ import { CarEditorComponent } from './car-editor/car-editor.component';
   declarations: [
     CarListeComponent,
     CarCardComponent,
-    NewCarComponent,
     CarCreatorComponent,
     CarEditorComponent
   ],

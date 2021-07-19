@@ -12,7 +12,8 @@ import { Brand } from '../../interfaces/brand';
 })
 export class ModelListeComponent implements OnInit {
 
-  public models: Model[] = [];
+  private models: Model[] = [];
+  public modelsFiltered: Model[] = [];
   public brands: Brand[] = [];
   constructor(private modelService: ModelService, private brandService: BrandService, private router: Router) { }
 
@@ -22,8 +23,12 @@ export class ModelListeComponent implements OnInit {
   }
 
   getAllModels(){
-    this.modelService.getAll().subscribe((modelsData: Model[]) => {
-      this.models = modelsData;
+    this.modelService.getAll().subscribe((data: Model[]) => {
+      data.forEach( (model: Model) => {
+        this.getBrandById(model);
+      })
+      this.models = data;
+      this.modelsFiltered = data;
     })
   }
 
@@ -41,17 +46,22 @@ export class ModelListeComponent implements OnInit {
     })
   }
 
-  getModelsByBrand(brandId: number){
-    this.modelService.getByBrand(brandId).subscribe((data: Model[]) => {
-      this.models = data;
+  getBrandById(model: Model){
+    this.brandService.getById(model.brandId).subscribe((data: Brand) => {
+      model.brand = data;
     })
   }
 
-  selectBrandChange(brandId: number){
-    if(!brandId){
-      this.getAllModels();
-    }else{
-      this.getModelsByBrand(brandId);
-    }
+  getModelsByBrand(brandId: number){
+   this.modelService.getByBrand(brandId).subscribe((data: Model[]) => {
+    data.forEach( (model: Model) => {
+      this.getBrandById(model);
+    })
+    this.models = data;
+    })
+  }
+
+  selectBrandChange(name: string){
+    this.modelsFiltered = this.models.filter(model => model.brand.name.includes(name));
   }
 }

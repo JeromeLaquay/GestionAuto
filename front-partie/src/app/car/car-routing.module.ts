@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { CarCreatorComponent } from './car-creator/car-creator.component';
+import { CarEditorComponent } from './car-editor/car-editor.component';
 import { CarListeComponent } from './car-liste/car-liste.component';
-import { NewCarComponent } from './new-car/new-car.component';
 
 
 const routes: Routes = [
@@ -11,11 +12,11 @@ const routes: Routes = [
   },
   {
     path: 'new',
-    component: NewCarComponent
+    component: CarCreatorComponent
   },
   {
     path: ':id',
-    component: NewCarComponent
+    component: CarEditorComponent
   }
 ];
 

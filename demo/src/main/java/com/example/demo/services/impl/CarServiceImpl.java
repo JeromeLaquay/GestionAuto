@@ -39,7 +39,6 @@ public class CarServiceImpl implements CarService {
         return repository.findById(id)
                 .flatMap(db -> {
                     db.setColor(car.getColor());
-                    db.setImagePath(car.getImagePath());
                     db.setModelId(car.getModelId());
                     db.setYear(car.getYear());
                     return repository.save(db);

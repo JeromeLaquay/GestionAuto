@@ -36,7 +36,6 @@ export class BrandEditorComponent implements OnInit {
   }
 
   onSubmit(){
-    console.log(this.formGroup.value);
     this.brand = this.formGroup.value;
     this.brandService.modify(this.id,this.brand)
     .subscribe(

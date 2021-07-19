@@ -20,8 +20,8 @@ export class ModelService {
     return this.http.post(environment.urlApi + this.urlModel, model);
   }
 
-  modify(model: Model){
-    return this.http.put(environment.urlApi + this.urlModel, model);
+  modify(id: number,model: Model){
+    return this.http.put(environment.urlApi + this.urlModel + id, model);
   }
 
   getById(id: number){

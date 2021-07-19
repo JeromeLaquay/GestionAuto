@@ -20,8 +20,8 @@ export class CarService {
     return this.http.post(environment.urlApi + this.urlCar, car);
   }
 
-  modify(car: Car){
-    return this.http.put(environment.urlApi + this.urlCar, car);
+  modify(id: number,car: Car){
+    return this.http.put(environment.urlApi + this.urlCar + id, car);
   }
 
   getById(id: number){

@@ -22,16 +22,11 @@ export class ModelEditorComponent implements OnInit {
   ngOnInit(): void {
     this.id = this.actRoute.snapshot.params.id;
     this.getById(this.id);
-    this.formGroup = new FormGroup({
-      name: new FormControl('', Validators.required),
-      brandId: new FormControl('', Validators.required)
-    });  
     this.getAllBrands();
   }
 
   onSubmit(){
-    console.log(this.formGroup.value);
-    this.modelService.create(this.formGroup.value)
+    this.modelService.modify(this.id, this.formGroup.value)
     .subscribe(
       (data: Model) => {
         this.router.navigate(['models']);

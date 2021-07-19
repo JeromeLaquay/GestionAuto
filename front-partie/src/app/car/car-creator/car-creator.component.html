@@ -1,1 +1,43 @@
-<p>car-creator works!</p>
+<div>
+    <h2>Création d'une nouvelle voiture</h2>
+</div>
+<div>
+    <div class="form-example">
+        <label for="brand">Marque : </label>
+        <select id="brand" (change)="selectBrandChange($event.target.value)">
+            <option selected hidden></option>
+            <option *ngFor="let brand of brands" [value]="brand.id" >{{brand.name}}</option>
+        </select>
+    </div>
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+        <div class="form-example">
+            <label for="model">Modèle : </label>
+            <select formControlName="modelId" id="model">
+                <option *ngFor="let model of models" [ngValue]="model.id">{{model.name}}</option>
+            </select>`
+        </div>
+        <div class="form-example">
+            <label for="year">Année : </label>
+            <select formControlName="year" id="year">
+                <option *ngFor="let year of years" [ngValue]="year">{{year}}</option>
+            </select>`
+        </div>
+        <div class="form-example">
+            <label for="color">Couleur : </label>
+            <select formControlName="color" id="color">
+                <option *ngFor="let color of colors" [ngValue]="color">{{color}}</option>
+            </select>`
+        </div>
+        <div class="form-example">
+            <label for="mileage">Kilometrage : </label>
+            <input class="form-control" id="mileage" formControlName="mileage" type="number">
+        </div>
+        <div class="form-example">
+            <label for="owner">Propriètaire : </label>
+            <input class="form-control" id="owner" formControlName="owner" type="text">
+        </div>
+        <div class="form-example">
+            <button type="submit" [disabled]="!formGroup.valid">Créer</button>
+        </div>
+  </form>
+</div>
